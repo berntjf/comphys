@@ -1,0 +1,36 @@
+1b-METHOD:
+n=10:
+Error: -1.1797
+log(h): -1.04139
+Time: 3 micro s
+
+n=100:
+Error: -3.08804
+log(h): -2.00432
+Time: 9 micro s
+
+n=1000:
+Error: -5.08005
+log(h): -3.00043
+Time: 39 micro s
+
+n=10000:
+Error: -7.07929
+log(h): -4.00004
+Time: 321 micro s
+
+LU-DECOMP:
+n=10:
+Error: 0.301744
+log(h): -1.04139
+Time: 832 micro s
+
+n=100:
+Error: 0.0374884
+log(h): -2.00432
+Time: 27990 micro s
+
+n=1000:
+Error: 0.00384884
+log(h): -3.00043
+Time: 816034 micro s

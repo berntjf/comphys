@@ -1,0 +1,42 @@
+Tridiagonal time: 52 mcs
+Tridiagonal 3num time: 2 mcs
+Error when n=10: -1.1797
+Error 3num when n=10: -1.1797
+log(h): -1.04139
+
+Tridiagonal time: 10 mcs
+Tridiagonal 3num time: 8 mcs
+Error when n=100: -3.08804
+Error 3num when n=100: -3.08804
+log(h): -2.00432
+
+Tridiagonal time: 88 mcs
+Tridiagonal 3num time: 75 mcs
+Error when n=1000: -5.08005
+Error 3num when n=1000: -5.08005
+log(h): -3.00043
+
+Tridiagonal time: 479 mcs
+Tridiagonal 3num time: 442 mcs
+Error when n=10000: -7.07929
+Error 3num when n=10000: -7.07929
+log(h): -4.00004
+
+Tridiagonal time: 4155 mcs
+Tridiagonal 3num time: 3975 mcs
+Error when n=100000: -8.84297
+Error 3num when n=100000: -8.84297
+log(h): -5
+
+Tridiagonal time: 37328 mcs
+Tridiagonal 3num time: 34786 mcs
+Error when n=1000000: -6.07547
+Error 3num when n=1000000: -6.07547
+log(h): -6
+
+Tridiagonal time: 361230 mcs
+Tridiagonal 3num time: 354188 mcs
+Error when n=10000000: -5.52523
+Error 3num when n=10000000: -5.52523
+log(h): -7
+
