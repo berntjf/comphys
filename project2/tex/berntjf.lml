@@ -1,0 +1,77 @@
+FYS3150 Project 2
+Bernt Jonas Fløde
+
+
+
+==Sammendrag==
+
+==Introduksjon==
+Dette prosjektet skal utvikle en egenverdi-løser basert på Jacobis metode.
+Vi begynner med å se på bjelke-i-spenn-problemet, med følgende
+differensialligning:
+$$\gamma \frac{d^2 u(x)}{dx^2} = -F u(x),$$
+
+==Metode==
+===Bjelke i spenn===
+For å løse differensialligningen brukes tilnærmingen
+$$u'' \approx \frac{u(\rho+h) -2u(\rho) +u(\rho-h)}{h^2},$$
+hvor $h$ er steget og $\rho = x/L$. Dette er ligningen for en bjelke i spenn,
+der $u(x)$ er den vertikale forskyvningen, $F$ er kraften som blir utført på
+bjelken og $\gamma$ er en konstant definert utfra bjelken selv.
+Definerer så $\rho_i=\rho_0+i h$ og $u_i=u(\rho_i) \for i=1,2,...,N.$ og slik at
+$$h = (\rho_N-\rho_0)/N = 1/N$$
+per definisjon av $\rho$, og
+$$-\frac{u_{i+1} -2u_i +u_{i-1} }{h^2}  = \lambda u_i$$
+som er et ligningssett med $i+1$ ligninger. På matriseform blir dette
+\[
+\begin{bmatrix}
+     d    & a     & \dots&\dots & 0    \\
+     a    & d     & a    & \dots& 0    \\
+    \vdots&\ddots &\ddots&\ddots&\vdots\\
+     0    &\dots  & a    & d    & a    \\
+     0    &\dots  & 0    & a    & d
+\end{bmatrix}
+\begin{bmatrix}
+    u_1 \\ u_2 \\ \vdots \\ u_{N-2} \\ u_{N-1}
+\end{bmatrix}
+=
+\lambda
+\begin{bmatrix}
+    u_1 \\ u_2 \\ \vdots \\ u_{N-2} \\ u_{N-1}
+\end{bmatrix}
+\]
+der $a = -1/h^2$ og $b = 2/h^2$. Med vår definisjon av $h$ betyr det at
+$a = -N^2$ og $b = 2 N^2$.
+
+Dette ligningssettet har de analytiske løsningene
+$$\lambda_j = d+2a\cos{(\frac{j\pi}{N+1})} \for j=1,2,...,N-1.$$
+
+===Ortogonalitetens bevaring===
+For å vise at en ortogonal transformasjon på ortogonale vektorer bevarer
+ortogonaliteten sin, ser vi på en vektorbasis $:v:_i$, der
+$$:v:_i^T :v:_i = \delta_{i j} .$$
+Ser så på den ortogonale transformasjonensmatrisen $:U:$,
+$$:w:_i = :U: :v:_i ,$$
+og setter inn, der vi bruker egenskapen $:U:^T :U: = I$ for ortogonale
+matriser,
+$$:w:_i^T :w:_i = (:U: :v:_i)^T :U: :v:_i = :v:_i^T :U:^T :U: :v:_i^T = :v:_i^T I :v:_i^T = :v:_i^T :v:_i^T = \delta_{i j},$$
+som betyr at ortogonaliteten er bevart.
+
+===Metode for å finne egenverdier===
+For å finne egenverdier til en matrise kan vi bruke similaritetstransformasjonen $\mathbf{B}=\mathbf{S}^T\mathbf{A}\mathbf{S}$, der $\mathbf{S}$ har egenskapen $\mathbf{S}^{-1}=\mathbf{S}^T$ og $\mathbf{B}$ ideelt skal bli en diagonalmatrise. Hvis $\mathbf{B}$ er en diagonalmatrisene, er elementene på diagonalen egenverdiene til $\mathbf{A}$.
+
+Utfordringen er å finne riktig matrise $\mathbf{S}$. I stedet for å finne helt riktig matrise, blir strategien å bruke similaritetstransformasjon flere ganger, og velge $\mathbf{S}$ slik at vi får en matrise hvor elementene som ikke ligger på diagonalen statig går nærmere 0. Dette kan gjøres med Jacobis metode, som blir forklart i kap. 7.4 i \cite{komp}.
+
+===Implementering i C++===
+Programmet src/toeplitz.cpp viser i C++ hvordan Jacobis metode kan brukes til å finne løsningene på bjelke-i-spenn-problemet, ved å finne egenverdier og sammenligne dem med den analytiske løsningen.
+
+Som det kommer fram av kjøreeksempelet tar det 3 iterasjoner for similaritetstransformasjonen å gi en diagonalmatrise uansett om $N=6$, $N=11$ eller $N=101$, noe som antyder at dette er uavhengig av $N$.
+
+
+
+
+==Resultat==
+
+==Konklusjon==
+
+\printbibliography

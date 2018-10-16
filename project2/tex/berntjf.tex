@@ -1,0 +1,172 @@
+\documentclass[a4paper,10pt,english]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[colorlinks]{hyperref}
+\usepackage{pdfpages}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage[backend=biber]{biblatex}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\usepackage{xparse}
+\renewcommand{\thesubsection}{\alph{subsection}}
+\usepackage{titling}
+\setlength{\droptitle}{-4em}
+\addtolength{\hoffset}{-0.5in}
+\addtolength{\textwidth}{0.75in}
+\addtolength{\voffset}{-.5in}
+\addtolength{\textheight}{1.75in}
+
+\NewDocumentCommand{\codeword}{v}{%
+\texttt{\textcolor{blue}{#1}}%
+}
+
+\lstset{
+ backgroundcolor=\color{lbcolor},
+ tabsize=4,
+ rulecolor=,
+ language=matlab,
+ basicstyle=\scriptsize,
+ upquote=true,
+ aboveskip={1.5\baselineskip},
+ columns=fixed,
+ showstringspaces=false,
+ extendedchars=true,
+ breaklines=true,
+ prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+ frame=single,
+ showtabs=false,
+ showspaces=false,
+ showstringspaces=false,
+ identifierstyle=\ttfamily,
+ keywordstyle=\color[rgb]{0,0,1},
+ commentstyle=\color[rgb]{0.133,0.545,0.133},
+ stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+\addbibresource{berntjf.bib}
+\title{FYS3150 Project 2
+}
+\author{Bernt Jonas Fløde
+}
+\begin{document}
+\maketitle
+
+
+
+\section*{Sammendrag}
+
+\section*{Introduksjon}
+Dette prosjektet skal utvikle en egenverdi-løser basert på Jacobis metode.
+Vi begynner med å se på bjelke-i-spenn-problemet, med følgende
+differensialligning:
+$$\gamma \frac{d^2 u(x)}{dx^2} = -F u(x),$$
+
+\section*{Metode}
+\subsection*{Bjelke i spenn}
+For å løse differensialligningen brukes tilnærmingen
+$$u'' \approx \frac{u(\rho+h) -2u(\rho) +u(\rho-h)}{h^2},$$
+hvor $h$ er steget og $\rho = x/L$. Dette er ligningen for en bjelke i spenn,
+der $u(x)$ er den vertikale forskyvningen, $F$ er kraften som blir utført på
+bjelken og $\gamma$ er en konstant definert utfra bjelken selv.
+Definerer så $\rho_i=\rho_0+i h$ og $u_i=u(\rho_i) \hspace{0.5cm} \mathrm{for} \hspace{0.1cm} i=1,2,...,N.$ og slik at
+$$h = (\rho_N-\rho_0)/N = 1/N$$
+per definisjon av $\rho$, og
+$$-\frac{u_{i+1} -2u_i +u_{i-1} }{h^2}\hspace{0.1cm}= \lambda u_i$$
+som er et ligningssett med $i+1$ ligninger. På matriseform blir dette
+\[
+\begin{bmatrix}
+     d    & a     & \dots&\dots & 0    \\
+     a    & d     & a    & \dots& 0    \\
+    \vdots&\ddots &\ddots&\ddots&\vdots\\
+     0    &\dots  & a    & d    & a    \\
+     0    &\dots  & 0    & a    & d
+\end{bmatrix}
+\begin{bmatrix}
+    u_1 \\ u_2 \\ \vdots \\ u_{N-2} \\ u_{N-1}
+\end{bmatrix}
+=
+\lambda
+\begin{bmatrix}
+    u_1 \\ u_2 \\ \vdots \\ u_{N-2} \\ u_{N-1}
+\end{bmatrix}
+\]
+der $a = -1/h^2$ og $b = 2/h^2$. Med vår definisjon av $h$ betyr det at
+$a = -N^2$ og $b = 2 N^2$.
+
+Dette ligningssettet har de analytiske løsningene
+$$\lambda_j = d+2a\cos{(\frac{j\pi}{N+1})} \hspace{0.5cm} \mathrm{for} \hspace{0.1cm} j=1,2,...,N-1.$$
+
+\subsection*{Ortogonalitetens bevaring}
+For å vise at en ortogonal transformasjon på ortogonale vektorer bevarer
+ortogonaliteten sin, ser vi på en vektorbasis $\mathbf{v}_i$, der
+$$\mathbf{v}_i^T \mathbf{v}_i = \delta_{i j} .$$
+Ser så på den ortogonale transformasjonensmatrisen $\mathbf{U}$,
+$$\mathbf{w}_i = \mathbf{U} \mathbf{v}_i ,$$
+og setter inn, der vi bruker egenskapen $\mathbf{U}^T \mathbf{U} = I$ for ortogonale
+matriser,
+$$\mathbf{w}_i^T \mathbf{w}_i = (\mathbf{U} \mathbf{v}_i)^T \mathbf{U} \mathbf{v}_i = \mathbf{v}_i^T \mathbf{U}^T \mathbf{U} \mathbf{v}_i^T = \mathbf{v}_i^T I \mathbf{v}_i^T = \mathbf{v}_i^T \mathbf{v}_i^T = \delta_{i j},$$
+som betyr at ortogonaliteten er bevart.
+
+\subsection*{Metode for å finne egenverdier}
+For å finne egenverdier til en matrise kan vi bruke similaritetstransformasjonen $\mathbf{B}=\mathbf{S}^T\mathbf{A}\mathbf{S}$, der $\mathbf{S}$ har egenskapen $\mathbf{S}^{-1}=\mathbf{S}^T$ og $\mathbf{B}$ ideelt skal bli en diagonalmatrise. Hvis $\mathbf{B}$ er en diagonalmatrisene, er elementene på diagonalen egenverdiene til $\mathbf{A}$.
+
+Utfordringen er å finne riktig matrise $\mathbf{S}$. I stedet for å finne helt riktig matrise, blir strategien å bruke similaritetstransformasjon flere ganger, og velge $\mathbf{S}$ slik at vi får en matrise hvor elementene som ikke ligger på diagonalen statig går nærmere 0. Dette kan gjøres med Jacobis metode, som blir forklart i kap. 7.4 i \cite{komp}.
+
+\subsection*{Implementering i C++}
+Programmet src/toeplitz.cpp viser i C++ hvordan Jacobis metode kan brukes til å finne løsningene på bjelke-i-spenn-problemet, ved å finne egenverdier og sammenligne dem med den analytiske løsningen.
+
+Slik settes matrisen opp:
+\begin{lstlisting}
+double* a = new double[N+1];
+double* d = new double[N+1];
+double N_sq = pow(N, 2.0);
+double a_value = -N_sq;
+double d_value = 2*N_sq;
+for (int i = 0; i < N+1; i++) {
+    a[i] = a_value;
+    d[i] = d_value;
+}
+\end{lstlisting}
+
+Med en ekstra variabel $(ih)^2$ til å simulere et elektron i et potensial,
+istedenfor fastspent bjelke, settes matrisen opp slik:
+\begin{lstlisting}
+double* a = new double[N+1];
+double* d = new double[N+1];
+double N_sq = pow(N, 2.0);
+double a_value = -N_sq;
+double d_value = 2*N_sq;
+for (int i = 0; i < N; i++) {
+    a[i] = a_value;
+    d[i] = d_value + pow(i+1, 2.0)/N_sq;
+}
+\end{lstlisting}
+
+Med enda en ekstra variabel $\omega^2 (i h)^2 + 1/(i h)$ for å simulere to
+elektrone, settes matrisen opp slik:
+\begin{lstlisting}
+double* a = new double[N+1];
+double* d = new double[N+1];
+double N_sq = pow(N, 2.0);
+double omega_r_sq = pow(omega_r, 2.0);
+double a_value = -N_sq;
+double d_value = 2*N_sq;
+for (int i = 0; i < N; i++) {
+    a[i] = a_value;
+    d[i] = d_value + omega_r_sq*pow(i+1, 2.0)/N_sq + N/(i+1.0);
+}
+\end{lstlisting}
+
+\section*{Resultat og konklusjon}
+Det tar 3 iterasjoner for similaritetstransformasjonen å gi en diagonalmatrise uansett om $N=6$, $N=11$ eller $N=101$, noe som antyder at dette er uavhengig av $N$.
+
+\printbibliography
+\end{document}
+\grid

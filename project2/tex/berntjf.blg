@@ -1,0 +1,14 @@
+[0] Config.pm:354> INFO - This is Biber 2.7 (beta)
+[1] Config.pm:357> INFO - Logfile is 'berntjf.blg'
+[45] biber:303> INFO - === Tue Oct 16, 2018, 13:26:30
+[68] Biber.pm:360> INFO - Reading 'berntjf.bcf'
+[150] Biber.pm:836> INFO - Found 1 citekeys in bib section 0
+[175] Biber.pm:3671> INFO - Processing section 0
+[197] Biber.pm:3841> INFO - Looking for bibtex format file 'berntjf.bib' for section 0
+[201] bibtex.pm:1424> INFO - Decoding LaTeX character macros into UTF-8
+[225] bibtex.pm:1281> INFO - Found BibTeX data source 'berntjf.bib'
+[249] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[249] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[249] Biber.pm:3500> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'nb-NO'
+[252] bbl.pm:608> INFO - Writing 'berntjf.bbl' with encoding 'UTF-8'
+[253] bbl.pm:712> INFO - Output to berntjf.bbl
